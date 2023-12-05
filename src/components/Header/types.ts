@@ -1,3 +1,3 @@
 export interface IProps {
-  onCloseModal:()=>void;
+  currencyUAH: { [key: string]: number };
 }
