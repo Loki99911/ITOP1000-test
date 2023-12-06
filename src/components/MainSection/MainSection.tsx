@@ -1,47 +1,102 @@
-// import SVGFromSprite from '../SVGFromSprite/SVGFromSprite';
 import getFormatedDate from "../../helpers/getFormatedDate";
-import { getDate } from "../../service/Api";
+import { getDate, getSymbols } from "../../service/Api";
 import SelectComp from "../SelectComp/SelectComp";
-import { MainSectionWrapper } from "./MainSection.styled";
+import {
+  MainInput,
+  MainInputLabel,
+  MainSectionBlock,
+  MainSectionWrapper,
+} from "./MainSection.styled";
 import { ChangeEvent, useEffect, useState } from "react";
-import { IProps } from "./types";
+import store from "store";
 
-export default function MainSection({ symbols }: IProps) {
+export default function MainSection() {
+  const [symbols, setSymbols] = useState(store.get("symbols") || null);
   const [currentExchangeRate, setCurrentExchangeRate] = useState(null);
-  const [inputFromValue, setInputFromValue] = useState("");
-  const [inputToValue, setInputToValue] = useState("");
-  const [selectFromCurrency, setSelectFromCurrency] = useState("");
-  const [selectToCurrency, setSelectToCurrency] = useState("");
-
-  const handleInputFromChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!currentExchangeRate) return;
-    const value = Number(e.target.value) * currentExchangeRate;
-    setInputFromValue(String(value));
-  };
-
-  const handleInputToChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputToValue(e.target.value);
-  };
+  const [inputFromValue, setInputFromValue] = useState(0);
+  const [inputToValue, setInputToValue] = useState(0);
+  const [selectFromCurrency, setSelectFromCurrency] = useState(
+    Object.keys(store.get("symbols"))[0] || ""
+  );
+  const [selectToCurrency, setSelectToCurrency] = useState(
+    Object.keys(store.get("symbols"))[0] || ""
+  );
 
   useEffect(() => {
+    if (store.get("symbols")) return;
+    getSymbols()
+      .then((response) => {
+        store.set("symbols", response.data.symbols);
+        setSymbols(response.data.symbols);
+        const firstKey = Object.keys(response.data.symbols)[0];
+        setSelectFromCurrency(firstKey);
+        setSelectToCurrency(firstKey);
+      })
+      .catch(() => {
+        throw new Error("Reqest failed!");
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!selectFromCurrency) return;
     const currentDate = getFormatedDate();
     getDate(currentDate, selectFromCurrency)
-      .then((response) => setCurrentExchangeRate(response.data.rates))
+      .then((response) => {
+        if (response.data.base === "USD") {
+          store.set("CurrentExchangeRateUSD", response.data.rates);
+        }
+        if (response.data.base === "EUR") {
+          store.set("CurrentExchangeRateEUR", response.data.rates);
+        }
+        store.set("CurrentExchangeRate", response.data.rates);
+        setCurrentExchangeRate(response.data.rates);
+      })
       .catch(() => {
         throw new Error("Reqest failed!");
       });
   }, [selectFromCurrency]);
 
+  useEffect(() => {
+    if (!currentExchangeRate) return;
+console.log("Eff",currentExchangeRate[selectToCurrency],inputFromValue);
+
+    setInputToValue(
+      currentExchangeRate[selectToCurrency] * inputFromValue
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputFromValue, selectFromCurrency, selectToCurrency]);
+
+  useEffect(() => {
+    if (!currentExchangeRate) return;
+
+    setInputFromValue(
+      inputToValue / currentExchangeRate[selectToCurrency]
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputToValue]);
+
+  const handleInputFromChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    const numberValue = Number(e.target.value);
+    setInputFromValue(numberValue);
+  };
+
+  const handleInputToChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const numberValue = Number(e.target.value);
+    setInputToValue(numberValue);
+  };
+
   return (
     <>
       <MainSectionWrapper>
-        <div>
-          <label>
-            convert from:
-            <input
-              type="text"
+        <MainSectionBlock>
+          <MainInputLabel>
+            Convert from:
+            <MainInput
+              type="number"
               value={inputFromValue}
               onChange={handleInputFromChange}
+              placeholder="0.00"
             />
             {symbols && (
               <SelectComp
@@ -50,14 +105,14 @@ export default function MainSection({ symbols }: IProps) {
                 onChange={setSelectFromCurrency}
               />
             )}
-          </label>
-          <br />
-          <label>
-            convert to:
-            <input
-              type="text"
+          </MainInputLabel>
+          <MainInputLabel>
+            Convert to:
+            <MainInput
+              type="number"
               value={inputToValue}
               onChange={handleInputToChange}
+              placeholder="0.00"
             />
             {symbols && (
               <SelectComp
@@ -66,8 +121,8 @@ export default function MainSection({ symbols }: IProps) {
                 onChange={setSelectToCurrency}
               />
             )}
-          </label>
-        </div>
+          </MainInputLabel>
+        </MainSectionBlock>
       </MainSectionWrapper>
     </>
   );

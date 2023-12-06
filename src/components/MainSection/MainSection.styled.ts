@@ -1,46 +1,40 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MainSectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  @media screen and (min-width: 768px) {
-    flex-direction: row;
-  }
+  padding-top: 200px;
+`;
+export const MainSectionBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #6c2d2c;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 0 auto;
+  gap: 30px;
+  box-shadow: 10px 10px 20px rgba(159, 70, 54, 0.3);
 `;
 
-export const MainTitle = styled.h1`
-  color: #173d33;
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 1;
-  min-width: 100%;
-  margin-bottom: 24px;
-
-  @media screen and (min-width: 768px) {
-    min-width: 300px;
-    font-size: 48px;
-    margin-bottom: 0;
-    margin-right: 65px;
-  }
-  @media screen and (min-width: 1280px) {
-    min-width: 485px;
-    font-size: 64px;
-    margin-right: 295px;
-  }
+export const MainInputLabel = styled.label`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
 `;
 
-export const MainText = styled.p`
-  color: #173d33;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: -0.64px;
-  margin-bottom: 24px;
-  @media screen and (min-width: 768px) {
-    margin-bottom: 43px;
-  }
-  @media screen and (min-width: 1280px) {
-    margin-bottom: 20px;
+export const MainInput = styled.input`
+  background-color: #f1dcc9;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 50px;
+  padding-left: 15px;
+  padding-right: 55px;
+  border: none;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
   }
 `;
-
-

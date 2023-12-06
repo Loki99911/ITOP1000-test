@@ -1,3 +1,4 @@
+import { Selector } from "./SelectComp.styled";
 import { IProps } from "./types";
 
 export default function SelectComp({ value, symbols, onChange }: IProps) {
@@ -6,7 +7,7 @@ export default function SelectComp({ value, symbols, onChange }: IProps) {
   const symbolsArr = Object.keys(symbols);
 
   return (
-    <select
+    <Selector
       name="select"
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
@@ -16,6 +17,6 @@ export default function SelectComp({ value, symbols, onChange }: IProps) {
           {el}
         </option>
       ))}
-    </select>
+    </Selector>
   );
 }
