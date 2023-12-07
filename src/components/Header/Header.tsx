@@ -12,11 +12,13 @@ import {
 import { getDate } from "../../service/Api";
 import getFormatedDate from "../../helpers/getFormatedDate";
 import { ICurrencyUAH } from "./types";
+import store from "store";
 
 export default function Header() {
-  const [currencyUAH, setCurrencyUAH] = useState<ICurrencyUAH | null>(null);
+  const [currencyUAH, setCurrencyUAH] = useState<ICurrencyUAH | null>(store.get("UAH")||null);
 
   useEffect(() => {
+    if (currencyUAH) return;
     const currentDate = getFormatedDate();
     getDate(currentDate, "UAH")
       .then((response) => {
@@ -27,6 +29,7 @@ export default function Header() {
           "USD" in rates &&
           "EUR" in rates
         ) {
+          store.set("UAH", rates);
           setCurrencyUAH(rates);
         } else {
           throw new Error("Invalid data format!");
