@@ -1,30 +1,47 @@
-# React + TypeScript + Vite
+# CURRENCY
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CURRENCY - is a simple application for transferring from one currency to another.
+To use, just enter the required quantity and select currencies.
 
-Currently, two official plugins are available:
+WARNING!!! The API has a small request limit !!!
+***
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to use
 
-## Expanding the ESLint configuration
+### Use on-line
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To use the application online, you can use a direct link on GitHub:
+**[https://loki99911.github.io/ITOP1000-test/](https://loki99911.github.io/ITOP1000-test/)**
+ 
 
-- Configure the top-level `parserOptions` property like this:
+### Use localy
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+To use the application localy, follow next steps:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Clone the repository to your computer: `git clone` *https://github.com/Loki99911/ITOP1000-test*
+2. Navigate to the project directory: `cd UserCardFollowers`
+3. Install dependencies of project: input `npm install` in console.
+4. Create .env like .env.exaple
+4. Start the development server: `npm run dev`
+5. It will open a new tab in the your browser: *http://Port*.
+
+#### If you have done everything correctly, you will see the following pages:
+![Main page](/public/MainPage.JPG)
+***
+
+## Technologies
+⚡️ Base:
+TypeScript
+React
+⚡️ Requests:
+Axios
+⚡️ Styling:
+styled-component
+
+***
+
+## Developed by:
+_Junior Frontend Developer - Nikita Kresik_:
+**[GitHub](https://github.com/Loki99911)**,
+**[Linkedin](https://www.linkedin.com/feed/)**
+***
